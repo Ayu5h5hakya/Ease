@@ -8,18 +8,21 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CommunicationInterface{
 
     static String appFoldername = "Slider";
     ViewPager viewPager;
     TabLayout tabLayout;
     ViewPagerAdapter viewPagerAdapter;
+    FragmentB fragmentB;
+    FragmentA fragmentA;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         setSupportActionBar(toolbar);
 
-        viewPagerAdapter.addFragments(new FragmentA(),"Record");
-        viewPagerAdapter.addFragments(new FragmentB(),"Recent");
+        fragmentA = new FragmentA();
+        fragmentB = new FragmentB();
+        viewPagerAdapter.addFragments(fragmentA,"Record");
+        viewPagerAdapter.addFragments(fragmentB,"Recent");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -56,5 +61,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void signalFilesyschange() {
+        Log.d("Scanner", "signalFilesyschange: ");
+        fragmentB.scanAppFolder();
     }
 }

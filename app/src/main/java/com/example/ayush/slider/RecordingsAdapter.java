@@ -32,7 +32,7 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Cu
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        holder.child.setText(recordings.get(position).getName());
+        holder.child.setText(position+recordings.get(position).getName());
     }
 
 

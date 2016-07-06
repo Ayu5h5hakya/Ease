@@ -1,5 +1,7 @@
 package com.example.ayush.slider;
 
+import android.app.Activity;
+import android.content.Context;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +31,7 @@ public class FragmentA extends Fragment {
     private MediaRecorder mediaRecorder;
     private Chronometer chronometer;
     private boolean recording=false;
+    CommunicationInterface communicationInterface =null;
     public FragmentA(){}
 
     @Override
@@ -55,12 +58,19 @@ public class FragmentA extends Fragment {
                         mediaRecorder.release();
                         chronometer.stop();
                         recording=false;
+                        communicationInterface.signalFilesyschange();
                     }
 
                 }
                 catch (IOException e) {}
             }
         });
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        communicationInterface = (CommunicationInterface) activity;
     }
 
     @Nullable
@@ -91,4 +101,6 @@ public class FragmentA extends Fragment {
         }
         chronometer.setBase(SystemClock.elapsedRealtime());
     }
+
+
 }

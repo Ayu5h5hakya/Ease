@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.FileObserver;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,7 +36,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Ayush on 7/2/2016.
  */
-public class FragmentB extends Fragment {
+public class FragmentB extends Fragment{
 
     View view;
     RecyclerView recyclerView;
@@ -45,10 +46,12 @@ public class FragmentB extends Fragment {
     MediaPlayer mediaPlayer;
     RelativeLayout relativeLayout;
     Button stop,playpause;
+    private int noOfFiles;
     public FragmentB(){
         mediaPlayer = new MediaPlayer();
         scanAppFolder();
-    }
+        noOfFiles=0;
+     }
 
     @Nullable
     @Override
@@ -137,8 +140,14 @@ public class FragmentB extends Fragment {
         if(directory.isDirectory())
         {
             recordings = new ArrayList<>(Arrays.asList(directory.listFiles()));
-            Log.d("test", "scanAppFolder: "+recordings.size());
         }
+        if(noOfFiles<recordings.size() && recyclerView!=null)
+        {
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+        noOfFiles = recordings.size();
+
+
     }
 
 
