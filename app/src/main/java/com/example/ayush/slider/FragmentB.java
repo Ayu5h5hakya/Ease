@@ -143,6 +143,7 @@ public class FragmentB extends Fragment{
         }
         if(noOfFiles<recordings.size() && recyclerView!=null)
         {
+            Log.d("scanner", "scanAppFolder: ");
             recyclerView.getAdapter().notifyDataSetChanged();
         }
         noOfFiles = recordings.size();
